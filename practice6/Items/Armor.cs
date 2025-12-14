@@ -1,5 +1,6 @@
 ﻿namespace ISIP523_Faradjov
 {
+    //я нефор
     internal class Armor : Item
     {
         public int Defense { get; private set; }

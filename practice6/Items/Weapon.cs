@@ -1,5 +1,6 @@
 ﻿namespace ISIP523_Faradjov
 {
+// ь
     internal class Weapon : Item
     {
         public int Attack { get; private set; }
