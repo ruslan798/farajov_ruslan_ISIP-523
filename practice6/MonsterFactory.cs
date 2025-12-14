@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ISIP523_Faradjov
 {
+    // ь
     internal class MonsterFactory
     {
         public static Enemy CreateNewMonster(string monsterType)
