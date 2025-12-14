@@ -1,4 +1,5 @@
-﻿using ISIP423_Rezantsev;
+﻿using ISIP523_Faradjov;
+using System.Collections.Generic;
 
 namespace Pr7
 {
