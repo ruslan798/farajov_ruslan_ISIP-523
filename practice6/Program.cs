@@ -1,4 +1,6 @@
-﻿namespace farajov_ruslan_ISIP523;
+﻿namespace ISIP523_Faradjov
+
+{ 
     class Program
     {
         static void Main(string[] args)
