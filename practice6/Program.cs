@@ -1,2 +1,13 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿namespace farajov_ruslan_ISIP523;
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Game game = new Game();
+            game.StartGame();
+
+            Console.WriteLine("\nСпасибо за игру!");
+            Console.ReadKey();
+        }
+    }
+}
