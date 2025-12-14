@@ -2,6 +2,7 @@
 
 namespace ISIP523_Faradjov
 {
+    // ь
     internal class Game
     {
         private Player player;
