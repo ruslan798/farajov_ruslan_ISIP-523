@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ISIP523_Faradjov
+namespace practicee7
 
 {
     internal class Order
@@ -12,11 +12,11 @@ namespace ISIP523_Faradjov
         private static int LastId = 0;
 
         public int Id;
-        public Part Part;
+        public Parts Part;
         public int TurnsToDelive;
         public int PartQuantity;
 
-        public Order(Part part, int quantity)
+        public Order(Parts part, int quantity)
         {
             Id = LastId++;
             Part = part;

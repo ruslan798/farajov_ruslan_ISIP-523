@@ -1,14 +1,15 @@
-﻿using ISIP523_Faradjov;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
-namespace Pr7
+namespace practicee7
 {
     //Scaffold-DbContext "Data Source=Localhost;Initial Catalog=AutoService;Integrated Security=True;Trust Server Certificate=True" Microsoft.EntityFrameworkCore.SqlServer
-    class Program
+    internal class Program
     {
         static void Main(string[] args)
         {
-            Автосервис service = new();
+            Автосервис service = new Автосервис();
 
             service.StartNewGame();
         }
@@ -32,7 +33,7 @@ namespace Pr7
                 } 
         }
 
-        private List<Part> _parts = Core.Context.Parts.ToList();
+        private List<Parts> _parts = Core.Context.Parts.ToList();
 
         private List<Order> _orders = new List<Order>();
 
@@ -46,15 +47,16 @@ namespace Pr7
                 _currentTurn++;
                 ManageOrders();
                 Console.WriteLine($"День {_currentTurn}\nУ вас новый клиент!");
-                Part part = GetRandomPart();
+                Parts part = GetRandomPart();
+                Core.Context.SaveChanges();
                 ChooseMenu(part);
             }
         }
 
-        private void ChooseMenu(Part part)
+        private void ChooseMenu(Parts part)
         {
             Console.Clear();
-            Console.WriteLine($"Деталь: {part.Name}. Стоимость ремонта: {part.Price + part.RepairFee}.");
+            Console.WriteLine($"Деталь: {part.Name}. Стоимость ремонта: {part.Price + part.Repair_fee}.");
 
             Console.WriteLine("0. Заказать деталь\n1. Все детали\n2. Принять заказ\n3. Отказаться (Штраф)");
 
@@ -72,6 +74,7 @@ namespace Pr7
                         break;
                     case (ConsoleKey.D1):
                         ShowAllPartsQuantity();
+                        WaitForUser();
                         ChooseMenu(part);
                         break;
                     case (ConsoleKey.D2):
@@ -133,7 +136,7 @@ namespace Pr7
                 int.TryParse(Console.ReadLine(), out int ans);
 
                 if (ans == 0) break;
-                Part part = _parts.FirstOrDefault(p => p.Id == ans);
+                Parts part = _parts.FirstOrDefault(p => p.Id == ans);
                 ans = -1;
 
                 if (part != null)
@@ -171,7 +174,7 @@ namespace Pr7
 
         public void ManageOrders()
         {
-            List<Order> ordersToRemove = new();
+            List<Order> ordersToRemove = new List<Order>();
             foreach (Order order in _orders)
             {
                 order.TurnsToDelive --;
@@ -196,7 +199,7 @@ namespace Pr7
 
         #region ClientOrders
 
-        private void ClaimOrder(Part part)
+        private void ClaimOrder(Parts part)
         {
             if (part.Quantity <= 0)
             {
@@ -230,7 +233,7 @@ namespace Pr7
             WaitForUser();
         }
 
-        public void CompensateDamage(Part part)
+        public void CompensateDamage(Parts part)
         {
             decimal compensation;
             compensation = (CalculateReplacing(part) / 2) + (FINE * 2);
@@ -242,7 +245,7 @@ namespace Pr7
 
         #region PartsManagement
 
-        private void RepairPart(Part part)
+        private void RepairPart(Parts part)
         {
             if (part.Quantity <= 0) { return; }
             part.Quantity -= 1;
@@ -252,29 +255,29 @@ namespace Pr7
             WaitForUser();
         }
 
-        private Part GetRandomPart()
+        private Parts GetRandomPart()
         {
-            List<Part> parts = Core.Context.Parts.ToList();
+            List<Parts> parts = Core.Context.Parts.ToList();
             return parts[random.Next(0, parts.Count)];
         }
 
         private void ShowAllPartsQuantity()
         {
             int count = 0;
-            foreach (Part part in _parts)
+            foreach (Parts part in _parts)
             {
                 ShowPartQuantity(part);
             }
         }
 
-        private void ShowPartQuantity(Part part)
+        private void ShowPartQuantity(Parts part)
         {
             Console.WriteLine($"{part.Id}. {part.Name}: {part.Quantity} шт.\n");
         }
 
-        private decimal CalculateReplacing(Part part)
+        private decimal CalculateReplacing(Parts part)
         {
-            return part.Price + part.RepairFee;
+            return part.Price + part.Repair_fee;
         }
 
         #endregion

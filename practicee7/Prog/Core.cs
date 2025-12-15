@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace practicee7.Prog
+namespace practicee7
 {
     internal class Core
     {
