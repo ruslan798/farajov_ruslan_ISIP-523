@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ISIP423_Rezantsev
+namespace practicee7.Prog
 {
     internal class Core
     {
-        public static AutoServiceContext Context = new AutoServiceContext();
+        public static AutoServiceEntities Context = new AutoServiceEntities();
     }
 }

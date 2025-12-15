@@ -1,0 +1,256 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище AutoServiceModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Customer_history">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Day" Type="int" Nullable="false" />
+          <Property Name="Part_needed" Type="int" Nullable="false" />
+          <Property Name="Repair_price" Type="decimal" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="Status" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Earnings" Type="decimal" Precision="8" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Parts">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Price" Type="decimal" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="Repair_fee" Type="decimal" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Purchase_orders">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Part_id" Type="int" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="Delivery_in" Type="int" Nullable="false" />
+          <Property Name="Created_at" Type="datetime" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6013: Первичный ключ в таблице или представлении "AutoService.dbo.Service" не определен, его не удалось вывести. Эта таблица или представление исключены. Чтобы использовать сущность, необходимо проверить схему, добавить правильные ключи и раскомментировать ее.
+        <EntityType Name="Service">
+          <Property Name="Balance" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="CurrentOrderPartId" Type="int" />
+          <Property Name="Day" Type="int" />
+        </EntityType>-->
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK__customer___part___52593CB8">
+          <End Role="Parts" Type="Self.Parts" Multiplicity="1" />
+          <End Role="Customer_history" Type="Self.Customer_history" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Parts">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Customer_history">
+              <PropertyRef Name="Part_needed" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__purchase___part___4F7CD00D">
+          <End Role="Parts" Type="Self.Parts" Multiplicity="1" />
+          <End Role="Purchase_orders" Type="Self.Purchase_orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Parts">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Purchase_orders">
+              <PropertyRef Name="Part_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище AutoServiceModelContainer">
+          <EntitySet Name="Customer_history" EntityType="Self.Customer_history" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Parts" EntityType="Self.Parts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Purchase_orders" EntityType="Self.Purchase_orders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__customer___part___52593CB8" Association="Self.FK__customer___part___52593CB8">
+            <End Role="Parts" EntitySet="Parts" />
+            <End Role="Customer_history" EntitySet="Customer_history" />
+          </AssociationSet>
+          <AssociationSet Name="FK__purchase___part___4F7CD00D" Association="Self.FK__purchase___part___4F7CD00D">
+            <End Role="Parts" EntitySet="Parts" />
+            <End Role="Purchase_orders" EntitySet="Purchase_orders" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AutoServiceModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Customer_history">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Day" Type="Int32" Nullable="false" />
+          <Property Name="Part_needed" Type="Int32" Nullable="false" />
+          <Property Name="Repair_price" Type="Decimal" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Earnings" Type="Decimal" Precision="8" Scale="2" Nullable="false" />
+          <NavigationProperty Name="Parts" Relationship="Self.FK__customer___part___52593CB8" FromRole="Customer_history" ToRole="Parts" />
+        </EntityType>
+        <EntityType Name="Parts">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="Repair_fee" Type="Decimal" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Customer_history" Relationship="Self.FK__customer___part___52593CB8" FromRole="Parts" ToRole="Customer_history" />
+          <NavigationProperty Name="Purchase_orders" Relationship="Self.FK__purchase___part___4F7CD00D" FromRole="Parts" ToRole="Purchase_orders" />
+        </EntityType>
+        <EntityType Name="Purchase_orders">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Part_id" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="Delivery_in" Type="Int32" Nullable="false" />
+          <Property Name="Created_at" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Parts" Relationship="Self.FK__purchase___part___4F7CD00D" FromRole="Purchase_orders" ToRole="Parts" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK__customer___part___52593CB8">
+          <End Role="Parts" Type="Self.Parts" Multiplicity="1" />
+          <End Role="Customer_history" Type="Self.Customer_history" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Parts">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Customer_history">
+              <PropertyRef Name="Part_needed" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__purchase___part___4F7CD00D">
+          <End Role="Parts" Type="Self.Parts" Multiplicity="1" />
+          <End Role="Purchase_orders" Type="Self.Purchase_orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Parts">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Purchase_orders">
+              <PropertyRef Name="Part_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AutoServiceEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Customer_history" EntityType="Self.Customer_history" />
+          <EntitySet Name="Parts" EntityType="Self.Parts" />
+          <EntitySet Name="Purchase_orders" EntityType="Self.Purchase_orders" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <AssociationSet Name="FK__customer___part___52593CB8" Association="Self.FK__customer___part___52593CB8">
+            <End Role="Parts" EntitySet="Parts" />
+            <End Role="Customer_history" EntitySet="Customer_history" />
+          </AssociationSet>
+          <AssociationSet Name="FK__purchase___part___4F7CD00D" Association="Self.FK__purchase___part___4F7CD00D">
+            <End Role="Parts" EntitySet="Parts" />
+            <End Role="Purchase_orders" EntitySet="Purchase_orders" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище AutoServiceModelContainer" CdmEntityContainer="AutoServiceEntities">
+          <EntitySetMapping Name="Customer_history">
+            <EntityTypeMapping TypeName="AutoServiceModel.Customer_history">
+              <MappingFragment StoreEntitySet="Customer_history">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Day" ColumnName="Day" />
+                <ScalarProperty Name="Part_needed" ColumnName="Part_needed" />
+                <ScalarProperty Name="Repair_price" ColumnName="Repair_price" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Earnings" ColumnName="Earnings" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Parts">
+            <EntityTypeMapping TypeName="AutoServiceModel.Parts">
+              <MappingFragment StoreEntitySet="Parts">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Repair_fee" ColumnName="Repair_fee" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Purchase_orders">
+            <EntityTypeMapping TypeName="AutoServiceModel.Purchase_orders">
+              <MappingFragment StoreEntitySet="Purchase_orders">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Part_id" ColumnName="Part_id" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Delivery_in" ColumnName="Delivery_in" />
+                <ScalarProperty Name="Created_at" ColumnName="Created_at" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="AutoServiceModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
